@@ -16,8 +16,6 @@ class LoggingService:
         print(str(now) + "-" + tag + "::" + text)
 
     def delete_last_line(self):
-        # cursor up one line
-        sys.stdout.write('\x1b[1A')
-        # delete last line
-        sys.stdout.write('\x1b[2K')
+        pass
+
 

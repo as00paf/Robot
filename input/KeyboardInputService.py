@@ -1,8 +1,20 @@
-import os
-import curses
+from pynput import keyboard
+
+
+def on_press(key):
+    try:
+        print('alphanumeric key {0} pressed'.format(key.char))
+    except AttributeError:
+        print('special key {0} pressed'.format(key))
+
+
+def on_release(key):
+    print('{0} released'.format(key))
+    if key == keyboard.Key.esc:
+        return False
+
 
 class KeyboardInputService:
-    stdscr = None  # type: Object
     TAG = "KeyboardInputService"
 
     def __init__(self, logger, power_service):
@@ -10,27 +22,17 @@ class KeyboardInputService:
         self.power_service = power_service
         self.is_listening = False
         self.print_input = False
+        self.listener = keyboard.Listener(on_press=on_press, on_release=on_release)
         self.logger.log(self.TAG, "KeyboardInputService instantiated")
 
     def start_listening(self, print_input=False):
         self.print_input = print_input
         self.is_listening = True
-        
-        self.stdscr = curses.initscr()
-        curses.noecho()
-        self.stdscr.keypad(True)
-        
+
+        self.listener.start()
         self.logger.log(self.TAG, "Starting to listen")
-        while self.is_listening:
-            self.notify_listeners(self.read_input())
-        self.stop_listening()
 
     def stop_listening(self):
-        curses.nocbreak()
-        self.stdscr.keypad(False)
-        curses.echo()
-        curses.endwin()
-
         self.is_listening = False
         self.logger.log(self.TAG, "Listening stopped")
 
