@@ -35,7 +35,7 @@ class KeyboardInputService:
 
     def notify_listeners(self, keyboard_input):
         if self.print_input:
-            self.logger.log(self.TAG, "Keyboard input : " + keyboard_input)
+            self.logger.log(self.TAG, "Keyboard input : " + keyboard_input, True)
 
         pass
 
