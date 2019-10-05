@@ -23,7 +23,7 @@ class KeyboardInputService:
         self.logger.log(self.TAG, "Starting to listen")
         while self.is_listening:
             self.notify_listeners(self.read_input())
-        self.logger.log(self.TAG, "Listening stopped")
+        self.stop_listening()
 
     def stop_listening(self):
         curses.nocbreak()
@@ -32,6 +32,7 @@ class KeyboardInputService:
         curses.endwin()
 
         self.is_listening = False
+        self.logger.log(self.TAG, "Listening stopped")
 
     def notify_listeners(self, keyboard_input):
         if self.print_input:
