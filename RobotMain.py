@@ -7,10 +7,10 @@ from power.PowerService import PowerService
 class RobotMain:
     TAG = "RobotMain"
 
-    logger: LoggingService
-    battery_service: BatterySensorService
-    power_service: PowerService
-    keyboard_service: KeyboardInputService
+    logger = None  # type: LoggingService
+    battery_service = None  # type: BatterySensorService
+    power_service = None  # type: PowerService
+    keyboard_service = None  # type: KeyboardInputService
 
     is_running = False
 
@@ -34,7 +34,7 @@ class RobotMain:
             self.start_main_loop()
 
         except KeyboardInterrupt:
-            is_running = False
+            self.is_running = False
             print("You cancelled the operation")
         except Exception as e:
             print("Exception : " + str(e))
