@@ -27,6 +27,7 @@ class RobotMain:
         self.keyboard_service.start_listening(True)
         while self.is_running:
             pass
+        self.keyboard_service.stop_listening()
 
     def __init__(self):
         try:
