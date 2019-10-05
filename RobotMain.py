@@ -1,4 +1,4 @@
-from logging.LoggingService import LoggingService
+from logs.LoggingService import LoggingService
 from input.KeyboardInputService import KeyboardInputService
 from power.BatterySensorService import BatterySensorService
 from power.PowerService import PowerService
