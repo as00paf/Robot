@@ -1,6 +1,8 @@
 from logs.LoggingService import LoggingService
 from power.BatterySensorService import BatterySensorService
 from power.BatterySensorServiceConfiguration import BatterySensorServiceConfiguration
+from power.ChargeDetectorService import ChargeDetectorService
+from power.ChargeDetectorServiceConfiguration import ChargeDetectorServiceConfiguration
 from power.PowerService import PowerService
 import os
 import time
@@ -26,6 +28,10 @@ class RobotMain:
         # Power services
         battery_service_config = BatterySensorServiceConfiguration(0, 0, 10, True)
         self.battery_service = BatterySensorService(self.logger, battery_service_config)
+
+        charge_detector_service_config = ChargeDetectorServiceConfiguration(22, 1)
+        self.charge_detector_service = ChargeDetectorService(self.logger, charge_detector_service_config)
+
         self.power_service = PowerService(self.logger, self.battery_service)
 
         # Input services
@@ -56,6 +62,7 @@ class RobotMain:
             self.is_running = False
             print("You cancelled the operation")
         except Exception as e:
+            self.is_running = False
             print("Exception : " + str(e))
 
 

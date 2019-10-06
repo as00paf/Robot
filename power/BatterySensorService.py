@@ -12,6 +12,7 @@ class BatterySensorService:
         self.config = config
         self.is_monitoring = False
         self.battery_level = self.read_sensor(True)
+        self.listeners = {}
         self.logger.log(self.TAG, "BatterySensorService instantiated")
 
     def start_monitoring(self):
@@ -20,6 +21,7 @@ class BatterySensorService:
             new_level = self.read_sensor()
             if self.battery_level != new_level:
                 self.logger(self.TAG, "Battery level {0}%".format(new_level), True)
+                self.notify_listeners(new_level)
             self.battery_level = new_level
             time.sleep(self.config.monitoring_delay)
 
@@ -28,6 +30,7 @@ class BatterySensorService:
 
     def read_sensor(self, is_first_time=False):
         # Spi
+        # TODO : move to spidev service ?
         conn = spidev.SpiDev(0, self.config.spi_channel)
         conn.max_speed_hz = 1200000  # 1.2Mhz
         conn.mode = 0
@@ -52,3 +55,13 @@ class BatterySensorService:
     def bitstring(self, n):
         s = bin(n)[2:]
         return '0' * (8 - len(s)) + s
+
+    def register_listener(self, name, listener):
+        self.listeners[name] = listener
+
+    def unregister_listener(self, name):
+        self.listeners.pop(name)
+
+    def notify_listeners(self, battery_level):
+        for key in self.listeners:
+            self.listeners[key].on_battery_level_changed(battery_level)

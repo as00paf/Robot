@@ -18,7 +18,7 @@ is_charging = False
 print("Waiting for you to change the charging state")
 while True:
     was_charging = is_charging
-    is_charging = GPIO.input(detector_io) == 0
+    is_charging = GPIO.input(detector_io) != 0
 
     if was_charging != is_charging:
         print("Charge detected : {0}".format(is_charging))
