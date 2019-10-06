@@ -1,17 +1,4 @@
-from pynput import keyboard
-
-
-def on_press(key):
-    try:
-        print('alphanumeric key {0} pressed'.format(key.char))
-    except AttributeError:
-        print('special key {0} pressed'.format(key))
-
-
-def on_release(key):
-    print('{0} released'.format(key))
-    if key == keyboard.Key.esc:
-        return False
+import keyboard
 
 
 class KeyboardInputService:
@@ -22,25 +9,45 @@ class KeyboardInputService:
         self.power_service = power_service
         self.is_listening = False
         self.print_input = False
-        self.listener = keyboard.Listener(on_press=on_press, on_release=on_release)
+        self.keyboard = keyboard.
+        self.keyboard.on_press(self.on_press)
+        self.keyboard.on_release(self.on_release)
+        self.listeners = {}
         self.logger.log(self.TAG, "KeyboardInputService instantiated")
 
     def start_listening(self, print_input=False):
         self.print_input = print_input
         self.is_listening = True
 
-        self.listener.start()
         self.logger.log(self.TAG, "Starting to listen")
 
     def stop_listening(self):
         self.is_listening = False
         self.logger.log(self.TAG, "Listening stopped")
 
-    def notify_listeners(self, keyboard_input):
+    def on_press(self, key):
+        if self.is_listening:
+            self.notify_listeners(key, True)
+
+    def on_release(self, key):
+        if self.is_listening:
+            self.notify_listeners(key, False)
+
+    def register_listener(self, name, listener):
+        self.listeners[name] = listener
+
+    def unregister_listener(self, name):
+        self.listeners.pop(name)
+
+    def notify_listeners(self, key, is_pressed):
+        for key in self.listeners:
+            if is_pressed:
+                self.listeners[key].on_key_pressed()
+            else:
+                self.listeners[key].on_key_released()
+
         if self.print_input:
-            self.logger.log(self.TAG, "Keyboard input : " + keyboard_input, True)
-
-        pass
-
-    def read_input(self):
-        return self.stdscr.getkey()
+            if is_pressed:
+                self.logger.log(self.TAG, "Keyboard input : " + 'Key {0} pressed'.format(key.name), True)
+            else:
+                self.logger.log(self.TAG, "Keyboard input : " + 'Key {0} released'.format(key.name), True)
