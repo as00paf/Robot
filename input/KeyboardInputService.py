@@ -42,9 +42,9 @@ class KeyboardInputService:
     def notify_listeners(self, key, is_pressed):
         for key in self.listeners:
             if is_pressed:
-                self.listeners[key].on_key_pressed()
+                self.listeners[key].on_key_pressed(key)
             else:
-                self.listeners[key].on_key_released()
+                self.listeners[key].on_key_released(key)
 
         if self.print_input:
             if is_pressed:

@@ -1,5 +1,4 @@
 import datetime
-import sys
 
 
 class LoggingService:
@@ -10,12 +9,12 @@ class LoggingService:
 
     def log(self, tag, text, clear=False):
         if clear:
-            self.delete_last_line()
+            self.clear()
 
         now = datetime.datetime.now()
         print(str(now) + "-" + tag + "::" + text)
 
-    def delete_last_line(self):
-        pass
+    def clear(self):
+        print("\033[K")
 
 
