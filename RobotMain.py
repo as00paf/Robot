@@ -55,11 +55,15 @@ class RobotMain:
             self.start_main_loop()
 
         except KeyboardInterrupt:
-            self.is_running = False
+            self.stop_running()
             print("You cancelled the operation")
         except Exception as e:
-            self.is_running = False
+            self.stop_running()
             print("Exception : " + str(e))
+
+    def stop_running(self):
+        self.is_running = False
+        self.charge_detector_service.stop_monitoring()
 
 
 if __name__ == "__main__":
