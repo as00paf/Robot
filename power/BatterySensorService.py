@@ -2,6 +2,7 @@ from __future__ import division
 
 import spidev
 import time
+from threading import Thread
 
 
 class BatterySensorService:
@@ -12,11 +13,15 @@ class BatterySensorService:
         self.config = config
         self.is_monitoring = False
         self.battery_level = self.read_sensor(True)
+        self.thread = Thread(target=self.monitor)
         self.listeners = {}
         self.logger.log(self.TAG, "BatterySensorService instantiated")
 
     def start_monitoring(self):
         self.is_monitoring = True
+        self.thread.start()
+
+    def monitor(self):
         while self.is_monitoring:
             new_level = self.read_sensor()
             if self.battery_level != new_level:
