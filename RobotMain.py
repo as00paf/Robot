@@ -46,8 +46,8 @@ class RobotMain:
 
         while self.is_running:
             pass
-        # TOOD : move too ?
-        self.keyboard_service.stop_listening()
+        # TODO : move too ?
+        # self.keyboard_service.stop_listening()
 
     def __init__(self):
         try:

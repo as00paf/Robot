@@ -1,5 +1,6 @@
 import time
 import RPi.GPIO as GPIO
+from threading import Thread
 
 
 class ChargeDetectorService:
@@ -9,9 +10,12 @@ class ChargeDetectorService:
         self.logger = logger
         self.configuration = configuration
         self.is_charging = False
+        self.is_monitoring = False
+        self.thread = Thread(target=self.monitor)
         self.listeners = {}
         self.logger.log(self.TAG, "ChargeDetectorService instantiated")
         self.init_gpio()
+        self.start_monitoring()
 
     # TODO : move to gpio service ?
     def init_gpio(self):
@@ -20,8 +24,13 @@ class ChargeDetectorService:
         GPIO.cleanup()
         GPIO.setup(self.configuration.detector_io, GPIO.IN)
 
-    def monitor_charging_state(self):
-        while True:
+    def start_monitoring(self):
+        self.logger.log(self.TAG, "Monitoring started")
+        self.is_monitoring = True
+        self.thread.start()
+
+    def monitor(self):
+        while self.is_monitoring:
             was_charging = self.is_charging
             self.is_charging = self.read_charging_state()
 
@@ -30,6 +39,10 @@ class ChargeDetectorService:
                 self.notify_listeners(self.is_charging)
 
             time.sleep(self.configuration.monitor_sleep_time)
+
+    def stop_monitoring(self):
+        self.is_monitoring = False
+        self.logger.log(self.TAG, "Monitoring stopped")
 
     def read_charging_state(self):
         return GPIO.input(self.configuration.detector_io) != 0

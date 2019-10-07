@@ -18,6 +18,7 @@ class BatterySensorService:
         self.logger.log(self.TAG, "BatterySensorService instantiated")
 
     def start_monitoring(self):
+        self.logger.log(self.TAG, "Monitoring started")
         self.is_monitoring = True
         self.thread.start()
 
@@ -29,9 +30,6 @@ class BatterySensorService:
                 self.notify_listeners(new_level)
             self.battery_level = new_level
             time.sleep(self.config.monitoring_delay)
-
-    def stop_monitoring(self):
-        self.is_monitoring = False
 
     def read_sensor(self, is_first_time=False):
         # Spi
@@ -60,6 +58,10 @@ class BatterySensorService:
     def bitstring(self, n):
         s = bin(n)[2:]
         return '0' * (8 - len(s)) + s
+
+    def stop_monitoring(self):
+        self.is_monitoring = False
+        self.logger.log(self.TAG, "Monitoring stopped")
 
     def register_listener(self, name, listener):
         self.listeners[name] = listener
