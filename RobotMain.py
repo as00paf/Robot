@@ -7,9 +7,6 @@ from power.PowerService import PowerService
 import os
 import time
 
-if not os.environ["IS_OVER_SSH"]:
-    from input.KeyboardInputService import KeyboardInputService
-
 
 class RobotMain:
     TAG = "RobotMain"
@@ -18,6 +15,7 @@ class RobotMain:
     battery_service = None  # type: BatterySensorService
     power_service = None  # type: PowerService
     keyboard_service = None  # type: KeyboardInputService
+    charge_detector_service = None  # type: ChargeDetectorService
 
     is_running = False
 
@@ -35,8 +33,7 @@ class RobotMain:
         self.power_service = PowerService(self.logger, self.battery_service)
 
         # Input services
-        if not os.environ["IS_OVER_SSH"]:
-            self.keyboard_service = KeyboardInputService(self.logger, self.power_service)
+        # self.keyboard_service = KeyboardInputService(self.logger, self.power_service)
 
         time.sleep(0.5)
         self.logger.log(self.TAG, "All services initialized", True)
@@ -45,8 +42,7 @@ class RobotMain:
         self.is_running = True
 
         # TODO: move ?
-        if not os.environ["IS_OVER_SSH"]:
-            self.keyboard_service.start_listening(True)
+        # self.keyboard_service.start_listening(True)
 
         while self.is_running:
             pass
