@@ -39,7 +39,7 @@ class RobotMain:
 
         # Web services
         self.webapp = Flask(__name__)
-        self.webapp.run(host='0.0.0.0', port='8000', debug=True)
+        self.webapp.run(host='192.168.1.105', port='8000', debug=True)
 
         time.sleep(0.5)
         self.logger.log(self.TAG, "All services initialized", True)
