@@ -71,10 +71,5 @@ class RobotMain:
         self.is_running = False
         self.charge_detector_service.stop_monitoring()
 
-
-@webapp.app.route('/')
-def index():
-    return "Hello, World!"
-
 if __name__ == "__main__":
     main = RobotMain()
