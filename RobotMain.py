@@ -1,13 +1,13 @@
+import time
+
+from flask import Flask
+
 from logs.LoggingService import LoggingService
 from power.BatterySensorService import BatterySensorService
 from power.BatterySensorServiceConfiguration import BatterySensorServiceConfiguration
 from power.ChargeDetectorService import ChargeDetectorService
 from power.ChargeDetectorServiceConfiguration import ChargeDetectorServiceConfiguration
 from power.PowerService import PowerService
-from flask import Flask
-from web import webapp
-import os
-import time
 
 
 class RobotMain:
@@ -38,8 +38,8 @@ class RobotMain:
         # self.keyboard_service = KeyboardInputService(self.logger, self.power_service)
 
         # Web services
-        self.webapp = Flask(__name__)
-        self.webapp.run(host='0.0.0.0', port='8000', debug=True)
+        # self.webapp = Flask(__name__)
+        # self.webapp.run(host='0.0.0.0', port='8000', debug=True)
 
         time.sleep(0.5)
         self.logger.log(self.TAG, "All services initialized", True)
@@ -70,6 +70,7 @@ class RobotMain:
     def stop_running(self):
         self.is_running = False
         self.charge_detector_service.stop_monitoring()
+
 
 if __name__ == "__main__":
     main = RobotMain()
