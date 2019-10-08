@@ -4,6 +4,8 @@ from power.BatterySensorServiceConfiguration import BatterySensorServiceConfigur
 from power.ChargeDetectorService import ChargeDetectorService
 from power.ChargeDetectorServiceConfiguration import ChargeDetectorServiceConfiguration
 from power.PowerService import PowerService
+from flask import Flask
+from web import webapp
 import os
 import time
 
@@ -34,6 +36,10 @@ class RobotMain:
 
         # Input services
         # self.keyboard_service = KeyboardInputService(self.logger, self.power_service)
+
+        # Web services
+        self.webapp = Flask(__name__)
+        self.webapp.run(host='0.0.0.0', port='8000', debug=True)
 
         time.sleep(0.5)
         self.logger.log(self.TAG, "All services initialized", True)
