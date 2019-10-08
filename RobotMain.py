@@ -72,7 +72,7 @@ class RobotMain:
         self.charge_detector_service.stop_monitoring()
 
 
-@webapp.route('/')
+@webapp.app.route('/')
 def index():
     return "Hello, World!"
 
