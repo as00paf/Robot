@@ -47,8 +47,8 @@ class BatterySensorService:
         # Reading
         reply_bytes = conn.xfer2([cmd, 0])
         if self.config.print_reply_bytes and not is_first_time:
-            print "reply bytes"
-            print reply_bytes
+            print("reply bytes")
+            print(reply_bytes)
 
         reply_bitstring = ''.join(self.bitstring(n) for n in reply_bytes)
         reply = reply_bitstring[5:15]

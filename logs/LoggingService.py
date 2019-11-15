@@ -12,7 +12,7 @@ class LoggingService:
             self.clear()
 
         now = datetime.datetime.now()
-        print(str(now) + "-" + tag + "::" + text)
+        print(now.strftime("%x") + " " + now.strftime("%X") + "-" + tag + "::" + text)
 
     def clear(self):
         print("\033[K")
