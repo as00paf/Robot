@@ -1,9 +1,15 @@
 #!/usr/bin/python
 import RPi.GPIO as GPIO
+import time
+
 GPIO.setmode(GPIO.BCM)
 GPIO.cleanup()
-GPIO.setup(17,GPIO.OUT)
-GPIO.setup(27,GPIO.OUT)
-print "Lights on madafaka!"
-GPIO.output(17,GPIO.HIGH)
-GPIO.output(27,GPIO.HIGH)
+
+gpio = input("Enter GPIO: ")
+
+GPIO.setup(gpio,GPIO.OUT)
+print "Lights on madafaka! GPIO = " + str(gpio)
+GPIO.output(gpio,GPIO.HIGH)
+time.sleep(2)
+print "Lights out madafaka!"
+GPIO.output(gpio,GPIO.LOW)
