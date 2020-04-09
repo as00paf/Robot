@@ -10,40 +10,40 @@ print(" Motor + GPIO ")
 print("-------------")
 
 #26-19-13
-#Motor1B = mauve-bleu = 17
-#Motor1E = orange-mauve = 27
-#Motor1A = bleu-blanc = 22
+#Motor1B = mauve-bleu = 26
+#Motor1E = orange-mauve = 13
+#Motor1A = bleu-blanc = 19
 
 #6-5-12
-#Motor2A = vert-bleu = 21
-#Motor2B = orange-mauve = 20
-#Motor2E = mauve-blanc = 16
+#Motor2A = vert-bleu = 6
+#Motor2B = orange-mauve = 5
+#Motor2E = mauve-blanc = 12
 
 #17-27-22
-#Motor3A = vert-blanc = 26
-#Motor3B = blanc-mauve = 19
-#Motor3E = jaune-bleu = 13
+#Motor3A = vert-blanc = 17
+#Motor3B = blanc-mauve = 27
+#Motor3E = jaune-bleu = 22
 
 #23-24-25
-#Motor4A = gris-blanc = 5
-#Motor4B = mauve-mauve = 6
-#Motor4E = bleu-bleu = 12
+#Motor4A = gris-blanc = 23
+#Motor4B = mauve-mauve = 24
+#Motor4E = bleu-bleu = 25
 
-Motor1A = 22
-Motor1B = 17
-Motor1E = 27
+Motor1A = 26
+Motor1B = 13
+Motor1E = 19
 
-Motor2A = 21
-Motor2B = 20
-Motor2E = 16
+Motor2A = 5
+Motor2B = 6
+Motor2E = 12
 
-Motor3A = 26
-Motor3B = 13
-Motor3E = 19
+Motor3A = 22
+Motor3B = 17
+Motor3E = 27
 
-Motor4A = 5
-Motor4B = 6
-Motor4E = 12
+Motor4A = 23
+Motor4B = 24
+Motor4E = 25
 
 GPIO.setup(Motor1A, GPIO.OUT)
 GPIO.setup(Motor1B, GPIO.OUT)
@@ -133,7 +133,7 @@ GPIO.output(Motor4A, GPIO.HIGH)
 GPIO.output(Motor4B, GPIO.LOW)
 GPIO.output(Motor4E, GPIO.HIGH)
 
-sleep(3)
+sleep(1)
 
 print("Stopping motor")
 GPIO.output(Motor4E, GPIO.LOW)
@@ -144,7 +144,7 @@ GPIO.output(Motor4A, GPIO.LOW)
 GPIO.output(Motor4B, GPIO.HIGH)
 GPIO.output(Motor4E, GPIO.HIGH)
 
-sleep(3)
+sleep(1)
 
 print("Stopping motor")
 GPIO.output(Motor4E, GPIO.LOW)
