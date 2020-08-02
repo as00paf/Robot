@@ -9,7 +9,7 @@ print("-------------")
 print(" Charge Detector ")
 print("-------------")
 
-detector_io = 22
+detector_io = 18
 
 GPIO.setup(detector_io, GPIO.IN)
 
