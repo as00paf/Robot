@@ -3,11 +3,13 @@ import RPi.GPIO as GPIO
 
 class Motor:
 
-    def __init__(self, ma, mb, me, name):
+    def __init__(self, motor_name):
+        self.motor_name = motor_name
+        
+    def setup(self, ma, mb, me):
         self.ma = ma
         self.mb = mb
         self.me = me
-        self.name = name
 
     def init_gpios(self):
         GPIO.setup(self.ma, GPIO.OUT)

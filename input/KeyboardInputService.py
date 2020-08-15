@@ -4,11 +4,10 @@ from pynput import keyboard
 class KeyboardInputService:
     TAG = "KeyboardInputService"
 
-    def __init__(self, logger, power_service):
+    def __init__(self, logger):
         self.logger = logger
-        self.power_service = power_service
         self.is_listening = False
-        self.print_input = False
+        self.print_input = True
         self.listener = keyboard.Listener(on_press=self.on_press, on_release=self.on_release)
         self.listeners = {}
         self.logger.log(self.TAG, "KeyboardInputService instantiated")

@@ -1,5 +1,6 @@
 from config.Config import MotorConfig
 from time import sleep
+import RPi.GPIO as GPIO
 
 
 class DriveService:
@@ -13,12 +14,16 @@ class DriveService:
 
     def init_motors(self):
         self.logger.log(self.TAG, "Initializing motors")
+        
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setwarnings(False)
+
         for motor in self.config.motors:
-            self.logger.log(self.TAG, "Initializing ", motor.name)
+            self.logger.log(self.TAG, "Initializing " + motor.motor_name)
             motor.init_gpios()
 
     def forward(self, duration):
-        msg = "Forward for " + duration + "s"
+        msg = "Forward for " + str(duration) + "s"
         self.logger.log(self.TAG, msg)
 
         for motor in self.config.motors:
@@ -30,7 +35,7 @@ class DriveService:
             motor.stop()
 
     def reverse(self, duration):
-        msg = "Backward for " + duration + "s"
+        msg = "Backward for " + str(duration) + "s"
         self.logger.log(self.TAG, msg)
 
         for motor in self.config.motors:
@@ -42,7 +47,7 @@ class DriveService:
             motor.stop()
 
     def turn_right(self, duration):
-        msg = "Turning right for " + duration + "s"
+        msg = "Turning right for " + str(duration) + "s"
         self.logger.log(self.TAG, msg)
 
         motors = [self.config.motor1, self.config.motor2]
@@ -55,7 +60,7 @@ class DriveService:
             motor.stop()
 
     def turn_left(self, duration):
-        msg = "Turning left for " + duration + "s"
+        msg = "Turning left for " + str(duration) + "s"
         self.logger.log(self.TAG, msg)
 
         motors = [self.config.motor3, self.config.motor4]
@@ -68,7 +73,7 @@ class DriveService:
             motor.stop()
 
     def pivot_right(self, duration):
-        msg = "Pivoting right for " + duration + "s"
+        msg = "Pivoting right for " + str(duration) + "s"
         self.logger.log(self.TAG, msg)
 
         front = [self.config.motor1, self.config.motor2]
@@ -85,7 +90,7 @@ class DriveService:
             motor.stop()
 
     def pivot_left(self, duration):
-        msg = "Pivoting left for " + duration + "s"
+        msg = "Pivoting left for " + str(duration) + "s"
         self.logger.log(self.TAG, msg)
 
         front = [self.config.motor1, self.config.motor2]
