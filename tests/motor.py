@@ -29,21 +29,21 @@ print("-------------")
 #Motor4B = mauve-mauve = 24
 #Motor4E = bleu-bleu = 18
 
-Motor1A = 26
-Motor1B = 13
-Motor1E = 19
+Motor1A = 16
+Motor1B = 20
+Motor1E = 21
 
-Motor2A = 5
-Motor2B = 6
-Motor2E = 12
+Motor2A = 13
+Motor2B = 19
+Motor2E = 26
 
-Motor3A = 22
+Motor3A = 4
 Motor3B = 17
-Motor3E = 27
+Motor3E = 6
 
-Motor4A = 23
-Motor4B = 24
-Motor4E = 18
+Motor4A = 12
+Motor4B = 22
+Motor4E = 27
 
 GPIO.setup(Motor1A, GPIO.OUT)
 GPIO.setup(Motor1B, GPIO.OUT)

@@ -3,6 +3,12 @@ import RPi.GPIO as GPIO
 import sys, getopt
 from time import sleep
 
+def setup(Motor1A, Motor1B, Motor1E):
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setwarnings(False)
+    GPIO.setup(Motor1A, GPIO.OUT)
+    GPIO.setup(Motor1B, GPIO.OUT)
+    GPIO.setup(Motor1E, GPIO.OUT)
 
 def goForward(Motor1A, Motor1B, Motor1E):
     GPIO.setmode(GPIO.BCM)
@@ -10,24 +16,20 @@ def goForward(Motor1A, Motor1B, Motor1E):
 
     print("==Going Forward ==")
 
-    GPIO.setup(Motor1A, GPIO.OUT)
-    GPIO.setup(Motor1B, GPIO.OUT)
-    GPIO.setup(Motor1E, GPIO.OUT)
-
     GPIO.output(Motor1A, GPIO.HIGH)
     GPIO.output(Motor1B, GPIO.LOW)
     GPIO.output(Motor1E, GPIO.HIGH)
-    
-    return
 
 def stop(Motor1A, Motor1B, Motor1E):
     print("== Stopping ==")
     GPIO.output(Motor1E, GPIO.LOW)
     GPIO.output(Motor1B, GPIO.LOW)
     GPIO.output(Motor1E, GPIO.LOW)
-    return
 
 def runTest(Motors, sleepTime):
+    for motor in Motors:
+        setup(motor[0], motor[1], motor[2])
+    
     for motor in Motors:
         goForward(motor[0], motor[1], motor[2])
 
@@ -40,10 +42,10 @@ def runTest(Motors, sleepTime):
 
 def main(argv):
 
-    fl = [5, 6, 13] #front left 
-    fr = [19, 12, 26] #front right 
-    br = [9, 10, 11] #back left 
-    bl = [25, 8, 7] #back right
+    fl = [17, 27, 22] #front left 
+    fr = [26, 19, 13] #front right 
+    br = [6, 12, 5] #back left 
+    bl = [20, 4, 16] #back right
 
     Motorz = [fr, fl, br, bl]
     sleepTime = 1
