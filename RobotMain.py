@@ -3,6 +3,7 @@ import time
 from flask import Flask
 
 from config.Config import MotorConfig
+from input.UserControlService import UserControlService
 from logs.LoggingService import LoggingService
 from power.BatterySensorService import BatterySensorService
 from power.BatterySensorServiceConfiguration import BatterySensorServiceConfiguration
@@ -24,6 +25,7 @@ class RobotMain:
     battery_service = None  # type: BatterySensorService
     power_service = None  # type: PowerService
     keyboard_service = None  # type: KeyboardInputService
+    user_control_service = None  # type: UserControlService
     charge_detector_service = None  # type: ChargeDetectorService
 
     is_running = False
@@ -40,6 +42,7 @@ class RobotMain:
 
         # Input services
         self.keyboard_service = KeyboardInputService(self.logger)
+        self.user_control_service = UserControlService(self.keyboard_service, self.drive_service, self.logger)
 
         # Power services
         # battery_service_config = BatterySensorServiceConfiguration(0, 0, 10, True)
