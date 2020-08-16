@@ -30,7 +30,8 @@ class ChargeDetectorService:
             self.is_charging = self.read_charging_state()
 
             if was_charging != self.is_charging:
-                self.logger.log(self.TAG, "Charge detected : {0}".format(self.is_charging), True)
+                if self.config.debug:
+                    self.logger.log(self.TAG, "Charge detected : {0}".format(self.is_charging), True)
                 self.notify_listeners(self.is_charging)
 
             time.sleep(self.config.monitor_sleep_time)

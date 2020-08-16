@@ -19,6 +19,8 @@ class MotorConfig:
         motor4_a = 22
         motor4_b = 12
         motor4_e = 27
+        
+        self.debug = False
 
         self.motor1 = Motor("Front Left")
         self.motor1.setup(motor1_a, motor1_b, motor1_e)
@@ -51,6 +53,19 @@ class PowerConfig():
         self.print_reply_bytes = False
         
         self.monitor_sleep_time = 1
+        self.debug = False
+        
+        
+class DistanceConfig():
+    
+    def __init__(self):
+        self.trigger_io = 18
+        self.front_io = 23
+        self.back_io = 24
+        self.debug = True
+        self.monitoring_delay = 2
+        self.sleep_delay = 2
+    
 
         
         

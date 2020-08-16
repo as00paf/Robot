@@ -22,7 +22,7 @@ class UserControlService:
 
     def init_services(self):
         self.keyboard_input_service.register_listener(self.TAG, self)
-        self.debug_key_input = False
+        self.debug_key_input = False # TODO : put in config
         self.keyboard_input_service.start_listening(self.debug_key_input)
 
     def on_key_pressed(self, key):
@@ -59,6 +59,9 @@ class UserControlService:
         except AttributeError:
             if self.debug_key_input:
                 self.logger.log(self.TAG, "Special key pressed")
+                
+            if key == Key.Esc:
+                self.escape = True
 
     def on_key_released(self, key):
         try:
@@ -94,6 +97,9 @@ class UserControlService:
         except AttributeError:
             if self.debug_key_input:
                 self.logger.log(self.TAG, "Special key released")
+            
+            if key == Key.Esc:
+                self.escape = False
     
     def start_loop(self):
         self.up = False

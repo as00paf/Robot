@@ -5,6 +5,7 @@ from flask import Flask
 
 from config.Config import MotorConfig
 from config.Config import PowerConfig
+from config.Config import DistanceConfig
 from input.UserControlService import UserControlService
 from logs.LoggingService import LoggingService
 from power.BatterySensorService import BatterySensorService
@@ -13,6 +14,7 @@ from power.PowerService import PowerService
 from input.KeyboardInputService import KeyboardInputService
 from file.FileService import FileService
 from drive.DriveService import DriveService
+from distance.DistanceService import DistanceService
 
 
 class RobotMain:
@@ -27,6 +29,7 @@ class RobotMain:
     keyboard_service = None  # type: KeyboardInputService
     user_control_service = None  # type: UserControlService
     charge_detector_service = None  # type: ChargeDetectorService
+    distance_service = None  # type: DistanceService
 
     is_running = False
 
@@ -36,9 +39,11 @@ class RobotMain:
         self.file_service = FileService(self.logger)
 
         # Drive Services
+        distance_config = DistanceConfig()
+        self.distance_service = DistanceService(distance_config, self.logger)
         # will need distance service eventually
-        self.motor_config = MotorConfig()
-        self.drive_service = DriveService(self.motor_config, self.logger)
+        motor_config = MotorConfig()
+        self.drive_service = DriveService(motor_config, self.logger)
 
         # Input services
         self.keyboard_service = KeyboardInputService(self.logger)
@@ -72,10 +77,8 @@ class RobotMain:
         except Exception as e:
             self.stop_running()
             print("Exception : ", e)
-        '''
         finally:
             print(traceback.format_exc())
-        '''
 
     def stop_running(self):
         self.is_running = False
@@ -83,6 +86,7 @@ class RobotMain:
         self.user_control_service.stop_loop()
         self.keyboard_service.stop_listening()
         self.power_service.stop_loops()
+        self.distance_service.stop_monitoring()
 
 
 if __name__ == "__main__":

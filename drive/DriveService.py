@@ -15,9 +15,6 @@ class DriveService:
 
     def init_motors(self):
         self.logger.log(self.TAG, "Initializing motors")
-        
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setwarnings(False)
 
         for motor in self.config.motors:
             self.logger.log(self.TAG, "Initializing " + motor.motor_name)

@@ -4,9 +4,9 @@ import time
 try:
       GPIO.setmode(GPIO.BCM)
 
-      PIN_TRIGGER = 23
-      PIN_ECHO_F = 18
-      PIN_ECHO_B = 15 
+      PIN_TRIGGER = 18
+      PIN_ECHO_F = 23
+      PIN_ECHO_B = 24 
 
       GPIO.setup(PIN_TRIGGER, GPIO.OUT)
       GPIO.setup(PIN_ECHO_F, GPIO.IN)
