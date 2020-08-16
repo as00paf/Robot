@@ -16,12 +16,12 @@ class Motor:
         GPIO.setup(self.mb, GPIO.OUT)
         GPIO.setup(self.me, GPIO.OUT)
 
-    def drive(self):
+    def reverse(self):
         GPIO.output(self.ma, GPIO.LOW)
         GPIO.output(self.mb, GPIO.HIGH)
         GPIO.output(self.me, GPIO.HIGH)
 
-    def reverse(self):
+    def drive(self):
         GPIO.output(self.ma, GPIO.HIGH)
         GPIO.output(self.mb, GPIO.LOW)
         GPIO.output(self.me, GPIO.HIGH)

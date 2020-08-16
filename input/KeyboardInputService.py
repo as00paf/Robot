@@ -39,14 +39,16 @@ class KeyboardInputService:
         self.listeners.pop(name)
 
     def notify_listeners(self, key, is_pressed):
-        for key in self.listeners:
+        for listener in self.listeners.values():
             if is_pressed:
-                self.listeners[key].on_key_pressed(key)
+                listener.on_key_pressed(key)
             else:
-                self.listeners[key].on_key_released(key)
-
+                listener.on_key_released(key)
+                
         if self.print_input:
             if is_pressed:
-                self.logger.log(self.TAG, "Keyboard input : " + 'Key {0} pressed'.format(key.name), True)
+                self.logger.log(self.TAG, "Keyboard input : " + 'Key {0} pressed'.format(key), True)
             else:
-                self.logger.log(self.TAG, "Keyboard input : " + 'Key {0} released'.format(key.name), True)
+                self.logger.log(self.TAG, "Keyboard input : " + 'Key {0} released'.format(key), True)
+
+

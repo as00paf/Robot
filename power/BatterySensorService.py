@@ -2,25 +2,23 @@ from __future__ import division
 
 import spidev
 import time
-from threading import Thread
 
 
 class BatterySensorService:
     TAG = "BatterySensorService"
 
-    def __init__(self, logger, config):
+    def __init__(self, config, logger):
         self.logger = logger
         self.config = config
         self.is_monitoring = False
         self.battery_level = self.read_sensor(True)
-        self.thread = Thread(target=self.monitor)
         self.listeners = {}
         self.logger.log(self.TAG, "BatterySensorService instantiated")
 
     def start_monitoring(self):
         self.logger.log(self.TAG, "Monitoring started")
         self.is_monitoring = True
-        self.thread.start()
+        self.monitor()
 
     def monitor(self):
         while self.is_monitoring:
@@ -47,8 +45,7 @@ class BatterySensorService:
         # Reading
         reply_bytes = conn.xfer2([cmd, 0])
         if self.config.print_reply_bytes and not is_first_time:
-            print("reply bytes")
-            print(reply_bytes)
+            print("reply bytes: ", reply_bytes)
 
         reply_bitstring = ''.join(self.bitstring(n) for n in reply_bytes)
         reply = reply_bitstring[5:15]
@@ -70,5 +67,5 @@ class BatterySensorService:
         self.listeners.pop(name)
 
     def notify_listeners(self, battery_level):
-        for key in self.listeners:
-            self.listeners[key].on_battery_level_changed(battery_level)
+        for listener in self.listeners:
+            listener.on_battery_level_changed(battery_level)

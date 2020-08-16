@@ -9,6 +9,7 @@ class DriveService:
     def __init__(self, config, logger):
         self.config = config  # type: MotorConfig
         self.logger = logger
+        self.debug_key_input = False
         self.logger.log(self.TAG, "DriveService instantiated")
         self.init_motors()
 
@@ -23,8 +24,9 @@ class DriveService:
             motor.init_gpios()
 
     def forward(self, duration):
-        msg = "Forward for " + str(duration) + "s"
-        self.logger.log(self.TAG, msg)
+        if self.debug_key_input:
+            msg = "Forward for " + str(duration) + "s"
+            self.logger.log(self.TAG, msg)
 
         for motor in self.config.motors:
             motor.drive()
@@ -35,8 +37,9 @@ class DriveService:
             motor.stop()
 
     def reverse(self, duration):
-        msg = "Backward for " + str(duration) + "s"
-        self.logger.log(self.TAG, msg)
+        if self.debug_key_input:
+            msg = "Backward for " + str(duration) + "s"
+            self.logger.log(self.TAG, msg)
 
         for motor in self.config.motors:
             motor.reverse()
@@ -47,8 +50,9 @@ class DriveService:
             motor.stop()
 
     def turn_right(self, duration):
-        msg = "Turning right for " + str(duration) + "s"
-        self.logger.log(self.TAG, msg)
+        if self.debug_key_input:
+            msg = "Turning right for " + str(duration) + "s"
+            self.logger.log(self.TAG, msg)
 
         motors = [self.config.motor1, self.config.motor2]
         for motor in motors:
@@ -60,8 +64,9 @@ class DriveService:
             motor.stop()
 
     def turn_left(self, duration):
-        msg = "Turning left for " + str(duration) + "s"
-        self.logger.log(self.TAG, msg)
+        if self.debug_key_input:
+            msg = "Turning left for " + str(duration) + "s"
+            self.logger.log(self.TAG, msg)
 
         motors = [self.config.motor3, self.config.motor4]
         for motor in motors:
@@ -73,8 +78,9 @@ class DriveService:
             motor.stop()
 
     def pivot_right(self, duration):
-        msg = "Pivoting right for " + str(duration) + "s"
-        self.logger.log(self.TAG, msg)
+        if self.debug_key_input:
+            msg = "Pivoting right for " + str(duration) + "s"
+            self.logger.log(self.TAG, msg)
 
         front = [self.config.motor1, self.config.motor2]
         for motor in front:
@@ -90,8 +96,9 @@ class DriveService:
             motor.stop()
 
     def pivot_left(self, duration):
-        msg = "Pivoting left for " + str(duration) + "s"
-        self.logger.log(self.TAG, msg)
+        if self.debug_key_input:
+            msg = "Pivoting left for " + str(duration) + "s"
+            self.logger.log(self.TAG, msg)
 
         front = [self.config.motor1, self.config.motor2]
         for motor in front:

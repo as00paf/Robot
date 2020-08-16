@@ -16,8 +16,8 @@ class MotorConfig:
         motor3_b = 17
         motor3_e = 6
 
-        motor4_a = 12
-        motor4_b = 22
+        motor4_a = 22
+        motor4_b = 12
         motor4_e = 27
 
         self.motor1 = Motor("Front Left")
@@ -33,4 +33,26 @@ class MotorConfig:
         self.motor4.setup(motor4_a, motor4_b, motor4_e)
         
         self.motors = [self.motor1, self.motor2, self.motor3, self.motor4]
+        
+
+class PowerConfig():
+    
+    CMD_DELTA = 128  #Or 192 ?
+    CLK = 11
+    MISO = 9
+    MOSI = 10
+    
+    def __init__(self):
+        detector_io = 5
+        
+        self.adc_channel = 0  #Always 0
+        self.spi_channel = 0  #GPIO 08
+        self.monitoring_delay = 10
+        self.print_reply_bytes = True
+        
+        self.monitor_sleep_time = 1
+
+        
+        
+    
 

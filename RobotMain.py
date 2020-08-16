@@ -3,12 +3,11 @@ import time
 from flask import Flask
 
 from config.Config import MotorConfig
+from config.Config import PowerConfig
 from input.UserControlService import UserControlService
 from logs.LoggingService import LoggingService
 from power.BatterySensorService import BatterySensorService
-from power.BatterySensorServiceConfiguration import BatterySensorServiceConfiguration
 from power.ChargeDetectorService import ChargeDetectorService
-from power.ChargeDetectorServiceConfiguration import ChargeDetectorServiceConfiguration
 from power.PowerService import PowerService
 from input.KeyboardInputService import KeyboardInputService
 from file.FileService import FileService
@@ -44,14 +43,9 @@ class RobotMain:
         self.keyboard_service = KeyboardInputService(self.logger)
         self.user_control_service = UserControlService(self.keyboard_service, self.drive_service, self.logger)
 
-        # Power services
-        # battery_service_config = BatterySensorServiceConfiguration(0, 0, 10, True)
-        # self.battery_service = BatterySensorService(self.logger, battery_service_config)
-
-        # charge_detector_service_config = ChargeDetectorServiceConfiguration(22, 1)
-        # self.charge_detector_service = ChargeDetectorService(self.logger, charge_detector_service_config)
-
-        # self.power_service = PowerService(self.logger, self.battery_service)
+        # Power service
+        power_config = PowerConfig()
+        self.power_service = PowerService(power_config, self.logger)
 
         # Web services
         # self.webapp = Flask(__name__)
@@ -62,8 +56,6 @@ class RobotMain:
 
     def start_main_loop(self):
         self.is_running = True
-        debug_key_input = False
-        self.keyboard_service.start_listening(debug_key_input)
         
         while(self.is_running):
             pass
