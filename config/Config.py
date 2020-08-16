@@ -64,7 +64,7 @@ class DistanceConfig():
         self.back_io = 24
         self.debug = True
         self.monitoring_delay = 2
-        self.sleep_delay = 2
+        self.sleep_delay = 10
     
 
         

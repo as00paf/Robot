@@ -45,8 +45,11 @@ class DistanceService():
         self.is_monitoring = False
         
     def measure_all(self):
-        self.measure_front()
-        self.measure_back()
+        try:
+            self.measure_front()
+            self.measure_back()
+        except Exception as e:
+            print("Exception : ", e)
         
     def measure_back(self):
         try:

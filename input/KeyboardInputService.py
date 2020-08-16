@@ -1,5 +1,5 @@
 from pynput import keyboard
-
+import Key
 
 class KeyboardInputService:
     TAG = "KeyboardInputService"
@@ -25,12 +25,20 @@ class KeyboardInputService:
         self.logger.log(self.TAG, "Listening stopped")
 
     def on_press(self, key):
-        if self.is_listening:
-            self.notify_listeners(key, True)
+        try:
+            if self.is_listening:
+                self.notify_listeners(key, True)
+        except Exception as e:
+            #print("Exception : ", e)
+            pass
 
     def on_release(self, key):
-        if self.is_listening:
-            self.notify_listeners(key, False)
+        try:
+            if self.is_listening:
+                self.notify_listeners(key, False)
+        except Exception as e:
+            #print("Exception : ", e)
+            pass
 
     def register_listener(self, name, listener):
         self.listeners[name] = listener
