@@ -2,6 +2,7 @@ from __future__ import division
 
 import spidev
 import time
+import threading
 
 
 class BatterySensorService:
@@ -18,13 +19,15 @@ class BatterySensorService:
     def start_monitoring(self):
         self.logger.log(self.TAG, "Monitoring started")
         self.is_monitoring = True
-        self.monitor()
+        self.thread = threading.Thread(target=self.monitor)
+        self.thread.start()
 
     def monitor(self):
         while self.is_monitoring:
-            new_level = self.read_sensor()
+            new_level = round(self.read_sensor() * 100)
+            
             if self.battery_level != new_level:
-                self.logger(self.TAG, "Battery level {0}%".format(new_level), True)
+                self.logger.log(self.TAG, "Battery level {0}%".format(new_level), True)
                 self.notify_listeners(new_level)
             self.battery_level = new_level
             time.sleep(self.config.monitoring_delay)
@@ -67,5 +70,5 @@ class BatterySensorService:
         self.listeners.pop(name)
 
     def notify_listeners(self, battery_level):
-        for listener in self.listeners:
+        for listener in self.listeners.values():
             listener.on_battery_level_changed(battery_level)

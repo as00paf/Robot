@@ -1,5 +1,6 @@
 from drive.DriveService import DriveService
 from input.KeyboardInputService import KeyboardInputService
+import threading
 
 
 class UserControlService:
@@ -16,7 +17,8 @@ class UserControlService:
         self.listeners = {}
         self.logger.log(self.TAG, "UserControlService instantiated")
         self.init_services()
-        self.start_loop()
+        self.thread = threading.Thread(target=self.start_loop)
+        self.thread.start()
 
     def init_services(self):
         self.keyboard_input_service.register_listener(self.TAG, self)
@@ -100,10 +102,11 @@ class UserControlService:
         self.right = False
         self.pivot_left = False
         self.pivot_right = False
+        self.is_running = True
         
         delay = 0.05
         
-        while True:
+        while self.is_running:
             if(self.up):
                 self.drive_service.forward(delay)
             elif(self.down):
@@ -116,6 +119,9 @@ class UserControlService:
                 self.drive_service.pivot_left(delay)
             elif(self.pivot_right):
                 self.drive_service.pivot_right(delay)
+                
+    def stop_loop(self):
+        self.is_running = False
 
                 
 

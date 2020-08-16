@@ -1,4 +1,5 @@
 import time
+import traceback
 
 from flask import Flask
 
@@ -59,8 +60,6 @@ class RobotMain:
         
         while(self.is_running):
             pass
-        
-        self.keyboard_service.stop_listening()
 
     def __init__(self):
         try:
@@ -73,11 +72,17 @@ class RobotMain:
         except Exception as e:
             self.stop_running()
             print("Exception : ", e)
+        '''
+        finally:
+            print(traceback.format_exc())
+        '''
 
     def stop_running(self):
         self.is_running = False
-        #self.charge_detector_service.stop_monitoring()
+        
+        self.user_control_service.stop_loop()
         self.keyboard_service.stop_listening()
+        self.power_service.stop_loops()
 
 
 if __name__ == "__main__":

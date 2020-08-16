@@ -15,22 +15,23 @@ class PowerService:
         self.battery_percent = 0
         self.charge_service = ChargeDetectorService(config, logger)
         self.battery_service = BatterySensorService(config, logger)
-
+        
+        self.start_monitoring()
         self.logger.log(self.TAG, "PowerService instantiated")
 
     def start_monitoring(self):
         self.battery_service.start_monitoring()
-        self.battery_service.register_listener(TAG, self)
+        self.battery_service.register_listener(self.TAG, self)
         
-        self.charge_service.register_listener(TAG, self)
-        self.is_charging = self.charge_sevice.is_charging
+        self.charge_service.start_monitoring()
+        self.charge_service.register_listener(self.TAG, self)
         
     def on_charging_state_changed(self, is_charging):
         self.is_charging = is_charging
         
     def on_battery_level_changed(self, percent):
         self.battery_percent = percent
-        self.battery_level = percent_to_level(percent)
+        self.battery_level = self.percent_to_level(percent)
         
     def percent_to_level(self, percent):
         if percent in range(0, 20):
@@ -45,5 +46,13 @@ class PowerService:
             return BatteryLevel.FULL
         else:
             return BatteryLevel.UNDEFINED
+
+
+    def stop_loops(self):
+        self.battery_service.stop_monitoring()
+        self.battery_service.unregister_listener(self.TAG)
+        
+        self.charge_service.stop_monitoring()
+        self.charge_service.unregister_listener(self.TAG)
             
 

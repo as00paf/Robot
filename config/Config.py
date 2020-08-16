@@ -43,12 +43,12 @@ class PowerConfig():
     MOSI = 10
     
     def __init__(self):
-        detector_io = 5
+        self.detector_io = 5
         
         self.adc_channel = 0  #Always 0
         self.spi_channel = 0  #GPIO 08
         self.monitoring_delay = 10
-        self.print_reply_bytes = True
+        self.print_reply_bytes = False
         
         self.monitor_sleep_time = 1
 
