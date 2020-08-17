@@ -34,18 +34,32 @@ class PowerService:
         self.battery_level = self.percent_to_level(percent)
         
     def percent_to_level(self, percent):
-        if percent in range(0, 20):
+        if percent in range(0, 10):
             return BatteryLevel.CRITICAL
-        elif percent in range(21, 40):
+        elif percent in range(11, 20):
             return BatteryLevel.VERY_LOW
-        elif percent in range(41, 60):
+        elif percent in range(21, 30):
             return BatteryLevel.LOW
-        elif percent in range(61, 99):
+        elif percent in range(31, 94):
             return BatteryLevel.HEALTHY
-        elif percent == 100:
+        elif range(95, 100):
             return BatteryLevel.FULL
         else:
             return BatteryLevel.UNDEFINED
+
+    def level_to_string(self, level):
+        if level == BatteryLevel.CRITICAL:
+            return "Critical"
+        elif level == BatteryLevel.FULL:
+            return "Full"
+        elif level == BatteryLevel.HEALTHY:
+            return "Healthy"
+        elif level == BatteryLevel.LOW:
+            return "Low"
+        elif level == BatteryLevel.VERY_LOW:
+            return "Very Low"
+        else:
+            return "Undefinde"
 
 
     def stop_loops(self):
@@ -55,5 +69,12 @@ class PowerService:
         self.charge_service.stop_monitoring()
         self.charge_service.unregister_listener(self.TAG)
         self.logger.log(self.TAG, "Monitoring stopped")
+
+    def report(self):
+        self.logger.log(self.TAG, "=====Battery Info=====")
+        self.logger.log(self.TAG, "Charging: " + str(self.is_charging))
+        self.logger.log(self.TAG, "Battery Level: " + self.level_to_string(self.battery_level))
+        self.logger.log(self.TAG, "Battery Percent: " + str(self.battery_percent) + "%")
+        self.logger.log(self.TAG, "=====Battery Info=====")
             
 

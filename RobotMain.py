@@ -7,6 +7,7 @@ from config.Config import MotorConfig
 from config.Config import PowerConfig
 from config.Config import DistanceConfig
 from config.Config import UserControlConfig
+from config.Config import MenuConfig
 from input.UserControlService import UserControlService
 from logs.LoggingService import LoggingService
 from power.BatterySensorService import BatterySensorService
@@ -16,6 +17,7 @@ from input.KeyboardInputService import KeyboardInputService
 from file.FileService import FileService
 from drive.DriveService import DriveService
 from distance.DistanceService import DistanceService
+from menu.MenuService import MenuService
 
 
 class RobotMain:
@@ -31,6 +33,7 @@ class RobotMain:
     user_control_service = None  # type: UserControlService
     charge_detector_service = None  # type: ChargeDetectorService
     distance_service = None  # type: DistanceService
+    menu_service = None  # type: MenuService
 
     is_running = False
 
@@ -38,6 +41,10 @@ class RobotMain:
         # General Services
         self.logger = LoggingService()
         self.file_service = FileService(self.logger)
+
+        # Menu
+        menu_config = MenuConfig()
+        self.menu_service = MenuService(menu_config, self.keyboard_service, self.battery_service, self.logger)
 
         # Drive Services
         distance_config = DistanceConfig()
@@ -59,7 +66,6 @@ class RobotMain:
         # self.webapp = Flask(__name__)
         # self.webapp.run(host='0.0.0.0', port='8000', debug=True)
 
-        # time.sleep(0.5)
         self.logger.log(self.TAG, "All services initialized", True)
 
     def start_main_loop(self):

@@ -1,6 +1,12 @@
 from drive.models.Motor import Motor
 
 
+class MenuConfig:
+
+    def __init__(self):
+        self.debug = False
+
+
 class MotorConfig:
 
     def __init__(self):
