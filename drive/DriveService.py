@@ -14,10 +14,12 @@ class DriveService:
         self.init_motors()
 
     def init_motors(self):
-        self.logger.log(self.TAG, "Initializing motors")
+        if self.config.debug:
+            self.logger.log(self.TAG, "Initializing motors")
 
         for motor in self.config.motors:
-            self.logger.log(self.TAG, "Initializing " + motor.motor_name)
+            if self.config.debug:
+                self.logger.log(self.TAG, "Initializing " + motor.motor_name)
             motor.init_gpios()
 
     def forward(self, duration):

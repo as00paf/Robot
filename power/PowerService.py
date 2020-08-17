@@ -54,5 +54,6 @@ class PowerService:
         
         self.charge_service.stop_monitoring()
         self.charge_service.unregister_listener(self.TAG)
+        self.logger.log(self.TAG, "Monitoring stopped")
             
 

@@ -43,6 +43,7 @@ class DistanceService():
             
     def stop_monitoring(self):
         self.is_monitoring = False
+        self.logger.log(self.TAG, "Monitoring stopped")
         
     def measure_all(self):
         try:

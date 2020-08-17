@@ -1,6 +1,4 @@
 from pynput import keyboard
-import Key
-
 class KeyboardInputService:
     TAG = "KeyboardInputService"
 
@@ -22,7 +20,7 @@ class KeyboardInputService:
     def stop_listening(self):
         self.is_listening = False
         self.listener.stop()
-        self.logger.log(self.TAG, "Listening stopped")
+        self.logger.log(self.TAG, "Monitoring stopped")
 
     def on_press(self, key):
         try:

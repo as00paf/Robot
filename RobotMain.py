@@ -6,6 +6,7 @@ from flask import Flask
 from config.Config import MotorConfig
 from config.Config import PowerConfig
 from config.Config import DistanceConfig
+from config.Config import UserControlConfig
 from input.UserControlService import UserControlService
 from logs.LoggingService import LoggingService
 from power.BatterySensorService import BatterySensorService
@@ -47,7 +48,8 @@ class RobotMain:
 
         # Input services
         self.keyboard_service = KeyboardInputService(self.logger)
-        self.user_control_service = UserControlService(self.keyboard_service, self.drive_service, self.logger)
+        user_control_config = UserControlConfig()
+        self.user_control_service = UserControlService(user_control_config, self.keyboard_service, self.drive_service, self.logger)
 
         # Power service
         power_config = PowerConfig()
@@ -62,6 +64,8 @@ class RobotMain:
 
     def start_main_loop(self):
         self.is_running = True
+        
+        self.keyboard_service.register_listener(self.TAG, self)
         
         while(self.is_running):
             pass
@@ -84,10 +88,24 @@ class RobotMain:
         self.is_running = False
         
         self.user_control_service.stop_loop()
+        
+        self.keyboard_service.unregister_listener(self.TAG)
         self.keyboard_service.stop_listening()
+        
         self.power_service.stop_loops()
         self.distance_service.stop_monitoring()
-
+        
+    def on_key_released(self, key):
+        pass
+        
+    def on_key_pressed(self, key):
+        try:
+            if str(key) == "Key.esc":
+                self.logger.log(self.TAG, "You pressed Esc, terminating the Robot's program", True)
+                self.stop_running()
+                
+        finally:
+            pass
 
 if __name__ == "__main__":
     main = RobotMain()

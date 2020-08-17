@@ -62,10 +62,17 @@ class DistanceConfig():
         self.trigger_io = 18
         self.front_io = 23
         self.back_io = 24
-        self.debug = True
+        self.debug = False
         self.monitoring_delay = 2
         self.sleep_delay = 10
+        
+            
+class UserControlConfig():
     
+    def __init__(self):
+        self.debug = False
+        self.debug_key_input = False
+        self.drive_delay = 0.05
 
         
         

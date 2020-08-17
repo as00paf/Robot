@@ -9,7 +9,8 @@ class UserControlService:
     keyboard_input_service = None  # type:KeyboardInputService
     drive_service = None  # type:DriveService
 
-    def __init__(self, keyboard_input_service, drive_service, logger):
+    def __init__(self, config, keyboard_input_service, drive_service, logger):
+        self.config = config
         self.logger = logger
         self.keyboard_input_service = keyboard_input_service
         self.drive_service = drive_service
@@ -22,7 +23,7 @@ class UserControlService:
 
     def init_services(self):
         self.keyboard_input_service.register_listener(self.TAG, self)
-        self.debug_key_input = False # TODO : put in config
+        self.debug_key_input = self.config.debug_key_input
         self.keyboard_input_service.start_listening(self.debug_key_input)
 
     def on_key_pressed(self, key):
@@ -42,26 +43,23 @@ class UserControlService:
         
             if key.char == "left":
                 self.left = True
-            elif key.char.lower() == "a":
+            elif key.char.lower() == "d":
                 self.left = True
         
             if key.char == "right":
                 self.right = True
-            elif key.char.lower() == "d":
+            elif key.char.lower() == "a":
                 self.right = True
                 
-            if key.char.lower() == "q":
+            if key.char.lower() == "e":
                 self.pivot_left = True
         
-            if key.char.lower() == "e":
+            if key.char.lower() == "q":
                 self.pivot_right = True
         
         except AttributeError:
             if self.debug_key_input:
                 self.logger.log(self.TAG, "Special key pressed")
-                
-            if key == Key.Esc:
-                self.escape = True
 
     def on_key_released(self, key):
         try:
@@ -80,26 +78,23 @@ class UserControlService:
         
             if key.char == "left":
                 self.left = False
-            elif key.char.lower() == "a":
+            elif key.char.lower() == "d":
                 self.left = False
         
             if key.char == "right":
                 self.right = False
-            elif key.char.lower() == "d":
+            elif key.char.lower() == "a":
                 self.right = False
         
-            if key.char.lower() == "q":
+            if key.char.lower() == "e":
                 self.pivot_left = False
         
-            if key.char.lower() == "e":
+            if key.char.lower() == "q":
                 self.pivot_right = False
         
         except AttributeError:
             if self.debug_key_input:
                 self.logger.log(self.TAG, "Special key released")
-            
-            if key == Key.Esc:
-                self.escape = False
     
     def start_loop(self):
         self.up = False
@@ -110,7 +105,7 @@ class UserControlService:
         self.pivot_right = False
         self.is_running = True
         
-        delay = 0.05
+        delay = self.config.drive_delay
         
         while self.is_running:
             if(self.up):
@@ -128,6 +123,7 @@ class UserControlService:
                 
     def stop_loop(self):
         self.is_running = False
+        self.logger.log(self.TAG, "Monitoring stopped")
 
                 
 

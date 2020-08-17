@@ -27,10 +27,12 @@ class BatterySensorService:
             new_level = round(self.read_sensor() * 100)
             
             if self.battery_level != new_level:
-                self.logger.log(self.TAG, "Battery level {0}%".format(new_level), True)
+                if self.config.debug:
+                    self.logger.log(self.TAG, "Battery level {0}%".format(new_level), True)
+                    
                 self.notify_listeners(new_level)
-            self.battery_level = new_level
-            time.sleep(self.config.monitoring_delay)
+                self.battery_level = new_level
+                time.sleep(self.config.monitoring_delay)
 
     def read_sensor(self, is_first_time=False):
         # Spi
