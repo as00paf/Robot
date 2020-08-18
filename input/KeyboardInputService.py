@@ -1,33 +1,39 @@
 from pynput import keyboard
+
+
 class KeyboardInputService:
     TAG = "KeyboardInputService"
 
-    def __init__(self, logger):
+    def __init__(self, config, logger):
         self.logger = logger
+        self.config = config
         self.is_listening = False
         self.print_input = True
         self.listener = keyboard.Listener(on_press=self.on_press, on_release=self.on_release)
         self.listeners = {}
-        self.logger.log(self.TAG, "KeyboardInputService instantiated")
+        if self.config.debug:
+            self.logger.log(self.TAG, "KeyboardInputService instantiated")
 
     def start_listening(self, print_input=False):
         self.print_input = print_input
         self.is_listening = True
         self.listener.start()
 
-        self.logger.log(self.TAG, "Starting to listen")
+        if self.config.debug:
+            self.logger.log(self.TAG, "Monitoring started")
 
     def stop_listening(self):
         self.is_listening = False
         self.listener.stop()
-        self.logger.log(self.TAG, "Monitoring stopped")
+        if self.config.debug:
+            self.logger.log(self.TAG, "Monitoring stopped")
 
     def on_press(self, key):
         try:
             if self.is_listening:
                 self.notify_listeners(key, True)
         except Exception as e:
-            #print("Exception : ", e)
+            print("Exception : ", e)
             pass
 
     def on_release(self, key):

@@ -7,6 +7,12 @@ class MenuConfig:
         self.debug = False
 
 
+class KeyboardServiceConfig:
+
+    def __init__(self):
+        self.debug = False
+
+
 class MotorConfig:
 
     def __init__(self):
@@ -45,7 +51,7 @@ class MotorConfig:
 
 class PowerConfig():
     
-    CMD_DELTA = 128  #Or 192 ?
+    CMD_DELTA = 128  #Or 128 ?
     CLK = 11
     MISO = 9
     MOSI = 10

@@ -18,7 +18,8 @@ class DistanceService():
         self.distance_front = 0
         self.distance_back = 0
         self.init_gpios()
-        self.logger.log(self.TAG, "DistanceService instantiated")
+        if self.config.debug:
+            self.logger.log(self.TAG, "DistanceService instantiated")
         self.start_monitoring()
         
     def init_gpios(self):
@@ -31,7 +32,8 @@ class DistanceService():
         GPIO.setup(self.PIN_ECHO_B, GPIO.IN)
         
     def start_monitoring(self):
-        self.logger.log(self.TAG, "Monitoring started")
+        if self.config.debug:
+            self.logger.log(self.TAG, "Monitoring started")
         self.is_monitoring = True
         self.thread = threading.Thread(target=self.monitor)
         self.thread.start()
@@ -43,7 +45,8 @@ class DistanceService():
             
     def stop_monitoring(self):
         self.is_monitoring = False
-        self.logger.log(self.TAG, "Monitoring stopped")
+        if self.config.debug:
+            self.logger.log(self.TAG, "Monitoring stopped")
         
     def measure_all(self):
         try:

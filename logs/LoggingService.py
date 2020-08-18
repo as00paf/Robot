@@ -5,7 +5,9 @@ class LoggingService:
     TAG = "LoggingService"
 
     def __init__(self):
-        self.log(self.TAG, "LoggingService instantiated")
+        self.debug = False
+        if self.debug:
+            self.log(self.TAG, "LoggingService instantiated")
 
     def log(self, tag, text, clear=False):
         if clear:

@@ -8,7 +8,9 @@ class FileService:
 
     def __init__(self, logger):
         self.logger = logger
-        logger.log(self.TAG, "FileService instantiated")
+        self.debug = False
+        if self.debug:
+            logger.log(self.TAG, "FileService instantiated")
 
     def write(self, path, data):
         with open(path, 'w', encoding="utf-8") as outfile:

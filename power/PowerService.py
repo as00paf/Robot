@@ -11,13 +11,15 @@ class PowerService:
         self.logger = logger
         self.is_monitoring = False
         self.is_charging = False
+        self.config = config
         self.battery_level = BatteryLevel.UNDEFINED
         self.battery_percent = 0
         self.charge_service = ChargeDetectorService(config, logger)
         self.battery_service = BatterySensorService(config, logger)
         
         self.start_monitoring()
-        self.logger.log(self.TAG, "PowerService instantiated")
+        if self.config.debug:
+            self.logger.log(self.TAG, "PowerService instantiated")
 
     def start_monitoring(self):
         self.battery_service.start_monitoring()
@@ -68,7 +70,8 @@ class PowerService:
         
         self.charge_service.stop_monitoring()
         self.charge_service.unregister_listener(self.TAG)
-        self.logger.log(self.TAG, "Monitoring stopped")
+        if self.config.debug:
+            self.logger.log(self.TAG, "Monitoring stopped")
 
     def report(self):
         self.logger.log(self.TAG, "=====Battery Info=====")

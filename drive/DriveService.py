@@ -10,7 +10,8 @@ class DriveService:
         self.config = config  # type: MotorConfig
         self.logger = logger
         self.debug_key_input = False
-        self.logger.log(self.TAG, "DriveService instantiated")
+        if self.config.debug:
+            self.logger.log(self.TAG, "DriveService instantiated")
         self.init_motors()
 
     def init_motors(self):

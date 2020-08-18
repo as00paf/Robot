@@ -1,6 +1,7 @@
 from drive.DriveService import DriveService
 from input.KeyboardInputService import KeyboardInputService
 import threading
+from pynput import keyboard
 
 
 class UserControlService:
@@ -16,10 +17,11 @@ class UserControlService:
         self.drive_service = drive_service
         self.is_listening = False
         self.listeners = {}
-        self.logger.log(self.TAG, "UserControlService instantiated")
         self.init_services()
         self.thread = threading.Thread(target=self.start_loop)
         self.thread.start()
+        if self.config.debug:
+            self.logger.log(self.TAG, "UserControlService instantiated")
 
     def init_services(self):
         self.keyboard_input_service.register_listener(self.TAG, self)
@@ -29,7 +31,7 @@ class UserControlService:
     def on_key_pressed(self, key):
         try:
             if self.debug_key_input:
-                self.logger.log(self.TAG, "Key pressed : " + key.char)
+                self.logger.log(self.TAG, "Key pressed : " + str(key))
             
             if key.char == "up":
                 self.up = True
@@ -123,7 +125,8 @@ class UserControlService:
                 
     def stop_loop(self):
         self.is_running = False
-        self.logger.log(self.TAG, "Monitoring stopped")
+        if self.config.debug:
+            self.logger.log(self.TAG, "Monitoring stopped")
 
                 
 
