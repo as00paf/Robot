@@ -21,6 +21,7 @@ from file.FileService import FileService
 from drive.DriveService import DriveService
 from distance.DistanceService import DistanceService
 from menu.MenuService import MenuService
+from webapp import create_app
 
 
 class RobotMain:
@@ -67,8 +68,8 @@ class RobotMain:
         self.menu_service = MenuService(menu_config, self.keyboard_service, self.power_service, self.logger)
 
         # Web services
-        # self.webapp = Flask(__name__)
-        # self.webapp.run(host='0.0.0.0', port='8000', debug=True)
+        self.webapp = create_app()
+        self.webapp.init(self)
 
         self.logger.log(self.TAG, "All services initialized")
 

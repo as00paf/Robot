@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+<div class="container-fluid">
+    <div class="row" id="camera_container">
+        <h2>Camera</h2>
+        <div class="col-xs-6 well text-center col-xs-offset-3">
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/1fbwgBpS3ik?rel=0"
+                        allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="controls_container">
+        <h2>Controls</h2>
+        <div class="col-sm-3" id="wheels_container">
+            <div class="box well">
+                <h4>Wheels</h4>
+                <br>
+                <div class="text-center">
+                    <button type="button" class="btn btn-default btn-md ctrl_btn" style="margin:2px;" id="btn_w"
+                            href="#">W
+                    </button>
+                    <br>
+                    <button type="button" class="btn btn-default btn-md ctrl_btn" style="margin:2px;" id="btn_a"
+                            href="#">A
+                    </button>
+                    <button type="button" class="btn btn-default btn-md ctrl_btn" style="margin:2px;" id="btn_s"
+                            href="#">S
+                    </button>
+                    <button type="button" class="btn btn-default btn-md ctrl_btn" style="margin:2px;" id="btn_d"
+                            href="#">D
+                    </button>
+                    <br>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-5" id="console_container">
+            <div class="box well">
+                <h4>Console</h4>
+                <div id="console" class="box h-100"></div>
+            </div>
+        </div>
+
+        <div class="col-sm-3" id="camera_controls_container">
+            <div class="box well">
+                <h4>Camera</h4>
+                <br>
+                <div class="text-center">
+                    <button type="button" class="btn btn-default ctrl_btn" style="margin:2px;" id="btn_up">
+                        <span class="glyphicon glyphicon-triangle-top"></span>
+                    </button>
+                    <br>
+
+                    <button type="button" class="btn btn-default ctrl_btn" style="margin:2px;" id="btn_left">
+                        <span class="glyphicon glyphicon-triangle-left"></span>
+                    </button>
+
+                    <button type="button" class="btn btn-default ctrl_btn" style="margin:2px;" id="btn_down">
+                        <span class="glyphicon glyphicon-triangle-bottom"></span>
+                    </button>
+
+                    <button type="button" class="btn btn-default ctrl_btn" style="margin:2px;" id="btn_right">
+                        <span class="glyphicon glyphicon-triangle-right"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
