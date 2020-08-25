@@ -12,6 +12,7 @@ from config.Config import DistanceConfig
 from config.Config import UserControlConfig
 from config.Config import MenuConfig
 from config.Config import KeyboardServiceConfig
+from config.Config import WebServerConfig
 from input.UserControlService import UserControlService
 from logs.LoggingService import LoggingService
 from power.BatterySensorService import BatterySensorService
@@ -72,13 +73,14 @@ class RobotMain:
         self.logger.log(self.TAG, "All services initialized, starting web server...")
 
         # Web server
+        self.web_config = WebServerConfig()
         self.webapp = create_app(self.user_control_service)
-        self.webapp.run(host="0.0.0.0", debug=True)
+        self.webapp.run(host=self.web_config.host, debug=self.web_config.debug)
         
 
     def start_server(self):        
         self.webapp = create_app(self.user_control_service)
-        self.webapp.run(host="0.0.0.0", debug=True)
+        self.webapp.run(host="0.0.0.0", debug=False)
         
         
     def stop_server(self):

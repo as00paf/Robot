@@ -1,4 +1,5 @@
 from time import sleep
+from pynput import keyboard
 
 
 class MenuService:
@@ -25,7 +26,7 @@ class MenuService:
     def on_key_pressed(self, key):
         if not self.is_in_menu and not self.is_confirming_entrance:
             try:
-                if key.char.lower() == "m":
+                if key == keyboard.Key.f1:
                     self.confirm_entrance()
             except Exception as e:
                 if self.config.debug:
