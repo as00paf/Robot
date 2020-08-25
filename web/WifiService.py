@@ -16,6 +16,9 @@ class WifiService:
         if self.config.debug:
             self.logger.log(self.TAG, "WifiService instantiated")     
         
+        if self.config.monitor:
+            self.start_monitoring()
+        
     def is_wifi_on(self):
         return len(list(Cell.all('wlan0'))) != 0
 
