@@ -4,7 +4,7 @@ from drive.models.Motor import Motor
 class MenuConfig:
 
     def __init__(self):
-        self.debug = True
+        self.debug = False
 
 
 class KeyboardServiceConfig:
@@ -92,6 +92,13 @@ class WebServerConfig():
     def __init__(self):
         self.debug = False
         self.host = "0.0.0.0"
+        self.drive_delay = 0.05
+        
+
+class WifiServiceConfig():
+    
+    def __init__(self):
+        self.debug = False
 
 
             

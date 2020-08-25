@@ -104,4 +104,12 @@ class DistanceService():
             
         finally:
             pass
+            
+        
+    def report(self):
+        self.logger.log(self.TAG, "=====Distance Info=====")
+        self.logger.log(self.TAG, "Monitoring On: " + str(self.is_monitoring))
+        self.logger.log(self.TAG, "Front Distance: " + str(self.distance_front) + " cm")
+        self.logger.log(self.TAG, "Back Distance: " + str(self.distance_back) + " cm")
+        self.logger.log(self.TAG, "=====Distance Info=====")
 

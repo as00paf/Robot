@@ -13,6 +13,7 @@ from config.Config import UserControlConfig
 from config.Config import MenuConfig
 from config.Config import KeyboardServiceConfig
 from config.Config import WebServerConfig
+from config.Config import WifiServiceConfig
 from input.UserControlService import UserControlService
 from logs.LoggingService import LoggingService
 from power.BatterySensorService import BatterySensorService
@@ -23,6 +24,7 @@ from file.FileService import FileService
 from drive.DriveService import DriveService
 from distance.DistanceService import DistanceService
 from menu.MenuService import MenuService
+from web.WifiService import WifiService
 from webapp import create_app
 from multiprocessing import Process
 
@@ -65,10 +67,14 @@ class RobotMain:
         # Power service
         power_config = PowerConfig()
         self.power_service = PowerService(power_config, self.logger)
+        
+        # Wifi service
+        wifi_config = WifiServiceConfig()
+        self.wifi_service = WifiService(wifi_config, self.logger)
 
         # Menu
         menu_config = MenuConfig()
-        self.menu_service = MenuService(menu_config, self.keyboard_service, self.power_service, self.logger)
+        self.menu_service = MenuService(menu_config, self.keyboard_service, self.power_service, self.distance_service, self.wifi_service, self.logger)
 
         self.logger.log(self.TAG, "All services initialized, starting web server...")
 

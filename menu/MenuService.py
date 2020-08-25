@@ -5,10 +5,12 @@ from pynput import keyboard
 class MenuService:
     TAG = "MenuService"
 
-    def __init__(self, config, keyboard_service, power_service, logger):
+    def __init__(self, config, keyboard_service, power_service, distance_service, wifi_service, logger):
         self.config = config
         self.keyboard_service = keyboard_service
         self.power_service = power_service
+        self.distance_service = distance_service
+        self.wifi_service = wifi_service
         self.logger = logger
         self.is_in_menu = False
         self.is_confirming_entrance = False
@@ -63,20 +65,61 @@ class MenuService:
         self.logger.clear()
         self.logger.log(self.TAG, "=====Robot Menu=====")
         self.logger.log(self.TAG, "Select one of there options")
-        self.logger.log(self.TAG, "1- Battery Info")
-        self.logger.log(self.TAG, "2- Exit")
+        self.logger.log(self.TAG, "1- Admin")
+        self.logger.log(self.TAG, "2- Power")
+        self.logger.log(self.TAG, "3- Remote Controls")
+        self.logger.log(self.TAG, "4- Sensors")
+        self.logger.log(self.TAG, "5- Status Report")
+        self.logger.log(self.TAG, "6- Exit")
         confirmation = input("What you got for me?")
         self.logger.log(self.TAG, "You chose: " + str(confirmation))
         
         if len(confirmation) == 0:
             self.exit_menu()
         elif str(confirmation) == "1":
-            self.display_battery_info()
+            self.display_admin_info()
+            self.exit_menu()
+        elif str(confirmation) == "2":
+            self.display_power_info()
+            self.exit_menu()
+        elif str(confirmation) == "3":
+            self.display_remote_controls_info()
+            self.exit_menu()
+        elif str(confirmation) == "4":
+            self.display_sensors_info()
+            self.exit_menu()
+        elif str(confirmation) == "5":
+            self.display_status_report()
+            self.exit_menu()
         else:
             self.exit_menu()
 
-    def display_battery_info(self):
+    def display_admin_info(self):
+        self.logger.log(self.TAG, "Admin Info")
+        sleep(1)
+        self.exit_menu()
+    
+    def display_power_info(self):
         self.power_service.report()
         sleep(5)
-        self.enter_menu()
+        self.exit_menu()
+
+    def display_remote_controls_info(self):
+        self.logger.log(self.TAG, "Remote Controls Info")
+        self.wifi_service.report()
+        sleep(1)
+        self.exit_menu()
+
+    def display_sensors_info(self):
+        self.logger.log(self.TAG, "Sensors Info")
+        sleep(1)
+        self.exit_menu()
+
+    def display_status_report(self):
+        self.logger.log(self.TAG, "Status Report")
+        self.power_service.report()
+        self.distance_service.report()
+        self.wifi_service.report()
+        sleep(1)
+        self.exit_menu()
 
