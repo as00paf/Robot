@@ -10,7 +10,7 @@ import os
 from flask_mail import Mail
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
-from RobotMain import RobotMain
+from input.UserControlService import UserControlService
 
 
 db = SQLAlchemy()
@@ -20,16 +20,12 @@ login.login_view = 'auth.login'
 mail = Mail()
 bootstrap = Bootstrap()
 moment = Moment()
-robot_main = None  # type: RobotMain
-
-
-def init(main):
-    current_app.robot_main = main
     
 
-def create_app(config_class=Config):
+def create_app(ctrl_serv, config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
+    app.control_service = ctrl_serv
 
     db.init_app(app)
     migrate.init_app(app, db)

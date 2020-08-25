@@ -14,17 +14,42 @@ $.ajax({
     }
 });
 
-$('.ctrl_btn').mousedown(function () {
-    var id = $(this).attr('id');
-    console.log("Mouse down on: " + id);
-    sendEvent("mouse_down", id);
-});
+if(is_touch_device()){
+    $('#console').append("<p>mobile</p>");
+    $('.ctrl_btn').on('touchstart', function () {
+        $(this).removeClass("mobileHoverFix");
+        var id = $(this).attr('id');
+        console.log("Mouse down on: " + id);
+        sendEvent("mouse_down", id);
+    });
 
-$('.ctrl_btn').mouseup(function () {
-    var id = $(this).attr('id');
-    console.log("Mouse up on: " + id);
-    sendEvent("mouse_up", id);
-});
+    $('.ctrl_btn').on('touchend', function () {
+        $(this).addClass("mobileHoverFix");
+        var id = $(this).attr('id');
+        console.log("Mouse up on: " + id);
+        sendEvent("mouse_up", id);
+    });
+}else{
+    $('#console').append("<p>desktop</p>");
+    $('.ctrl_btn').mousedown(function () {
+        var id = $(this).attr('id');
+        console.log("Mouse down on: " + id);
+        sendEvent("mouse_down", id);
+    });
+
+    $('.ctrl_btn').mouseup(function () {
+        var id = $(this).attr('id');
+        console.log("Mouse up on: " + id);
+        sendEvent("mouse_up", id);
+    });    
+}
+
+
+function is_touch_device() {
+    var is_touch = 'ontouchstart' in window
+    console.log("Is touch device " + is_touch);
+    return is_touch;
+}
 
 function sendEvent(event, id) {
     console.log("Sending event" + event + " for button " + id);

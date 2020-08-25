@@ -1,6 +1,7 @@
 import time
 import traceback
 import sys
+import threading
 
 from flask import Flask
 from pynput import keyboard
@@ -22,6 +23,7 @@ from drive.DriveService import DriveService
 from distance.DistanceService import DistanceService
 from menu.MenuService import MenuService
 from webapp import create_app
+from multiprocessing import Process
 
 
 class RobotMain:
@@ -67,12 +69,31 @@ class RobotMain:
         menu_config = MenuConfig()
         self.menu_service = MenuService(menu_config, self.keyboard_service, self.power_service, self.logger)
 
-        # Web services
-        self.webapp = create_app()
-        self.webapp.init(self)
+        self.logger.log(self.TAG, "All services initialized, starting web server...")
 
-        self.logger.log(self.TAG, "All services initialized")
+        # Web server
+        self.webapp = create_app(self.user_control_service)
+        self.webapp.run(host="0.0.0.0", debug=True)
+        
 
+    def start_server(self):        
+        self.webapp = create_app(self.user_control_service)
+        self.webapp.run(host="0.0.0.0", debug=True)
+        
+        
+    def stop_server(self):
+        from flask import request
+        
+    
+    def shutdown_server():
+        func = request.environ.get('werkzeug.server.shutdown')
+        if func is None:
+            raise RuntimeError('Not running with the Werkzeug Server')
+        func()
+        self.webapp = None
+        self.logger.log(self.TAG, "Server was properly shut down")
+    
+    
     def start_main_loop(self):
         self.is_running = True
         
@@ -87,8 +108,10 @@ class RobotMain:
             self.start_main_loop()
 
         except KeyboardInterrupt:
+            print("")
+            print("You cancelled the operation, stopping everything")
+            print("")
             self.stop_running()
-            print("You cancelled the operation")
         except Exception as e:
             self.stop_running()
             print("Exception : ", e)
@@ -99,12 +122,14 @@ class RobotMain:
         self.is_running = False
         
         try:
+            self.stop_server()
+            self.keyboard_service.unregister_listener(self.TAG)
+            
             self.power_service.stop_loops()
             self.distance_service.stop_monitoring()
             self.menu_service.stop_monitoring()
             
             self.user_control_service.stop_loop()
-            self.keyboard_service.unregister_listener(self.TAG)
             self.keyboard_service.stop_listening()
         except Exception as e:
             print("Error :" + e)
