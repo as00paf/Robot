@@ -14,12 +14,14 @@ from config.Config import MenuConfig
 from config.Config import KeyboardServiceConfig
 from config.Config import WebServerConfig
 from config.Config import WifiServiceConfig
+from config.Config import BluetoothConfig
 from input.UserControlService import UserControlService
 from logs.LoggingService import LoggingService
 from power.BatterySensorService import BatterySensorService
 from power.ChargeDetectorService import ChargeDetectorService
 from power.PowerService import PowerService
 from input.KeyboardInputService import KeyboardInputService
+from input.BluetoothService import BluetoothService
 from file.FileService import FileService
 from drive.DriveService import DriveService
 from distance.DistanceService import DistanceService
@@ -78,10 +80,14 @@ class RobotMain:
 
         self.logger.log(self.TAG, "All services initialized, starting web server...")
 
+        # Bluetooth
+        bt_config = BluetoothConfig()
+        self.bluetooth = BluetoothService(bt_config, self.user_control_service, self.logger)
+
         # Web server
         self.web_config = WebServerConfig()
         self.webapp = create_app(self.user_control_service)
-        self.webapp.run(host=self.web_config.host, debug=self.web_config.debug)
+        #self.webapp.run(host=self.web_config.host, debug=self.web_config.debug)
         
 
     def start_server(self):        
@@ -139,6 +145,7 @@ class RobotMain:
             
             self.user_control_service.stop_loop()
             self.keyboard_service.stop_listening()
+            self.bluetooth_service.stop_monitoring()
         except Exception as e:
             print("Error :" + e)
         finally:

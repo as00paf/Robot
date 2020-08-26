@@ -100,6 +100,25 @@ class WifiServiceConfig():
     def __init__(self):
         self.debug = False
         self.monitor = False
+        
+
+class BluetoothConfig():
+        
+    def __init__(self):
+            self.debug = True
+            self.input_device = "/dev/input/event4"
+            self.aBtn = 304
+            self.bBtn = 305
+            self.xBtn = 307
+            self.yBtn = 308
+            self.up = 0
+            self.down = 255
+            self.left = 0
+            self.right = 255
+            self.start = 314
+            self.select = 315
+            self.lTrig = 310
+            self.rTrig = 311
 
 
             
